@@ -40,6 +40,10 @@ def clean_create_company(x):
         return '台湾国光生物科技股份有限公司'
     elif '中国医学科学院医学生物研究所' in x or '中国医学科学院医学生物学研究所' in x:
         return '中国医学科学院医学生物学研究所'
+    elif x == '兰州生物制品研究所有限责任公':
+        return '兰州生物制品研究所有限责任公司'
+    elif x == '大连雅立峰生物科药有限公司':
+        return '大连雅立峰生物制药有限公司'
     elif '赛诺菲巴斯德' in x or 'SANOFIPASTEURS' in x or 'SANOFI' in x:
         return 'SANOFI.PASTEUR.S.A'
     elif 'GLAXOSMITHKLINE' in x:
@@ -51,6 +55,7 @@ def clean_create_company(x):
     elif 'DOHME' in x:
         return 'MERCK.SHARP.DOHME.CORP.'
     else:
+        # print(x)
         return x
 
 
@@ -60,24 +65,24 @@ def clean_vaccine_name(x):
             return '重组乙型肝炎疫苗'
         elif '重组乙型肝炎' in x:
             return '重组乙型肝炎疫苗'
-        elif '乙型肝炎疫苗' in x:
+        elif '乙型肝炎疫苗' in x or '乙肝疫苗' in x:
             return '重组乙型肝炎疫苗'
-        elif '甲型乙型肝炎联合疫苗' in x:
+        elif '乙型肝炎人免疫球蛋白' in x or '乙肝免疫球蛋白' in x:
+            return '重组乙型肝炎疫苗'
+        elif '甲型乙型肝炎联合疫苗' in x or '甲型乙型肝炎灭活疫苗' in x:
             return '甲型乙型肝炎联合疫苗'
         elif '乙肝联合疫苗' in x:
             return '甲型乙型肝炎联合疫苗'
-        elif '甲型肝炎灭活疫苗' in x:
+        elif '甲型肝炎灭活疫苗' in x or '冻干甲型肝炎' in x:
             return '甲型肝炎灭活疫苗'
         elif '重组戊型肝炎疫苗' in x:
             return '重组戊型肝炎疫苗'
-        elif '冻干甲型肝炎减毒活疫苗' in x:
-            return '冻干甲型肝炎减毒活疫苗'
+        elif '甲型肝炎减毒活疫苗' in x:
+            return '甲型肝炎减毒活疫苗'
         elif '甲肝灭活疫苗' in x:
             return '甲型肝炎灭活疫苗'
-        elif '冻干甲肝减毒活疫苗' in x:
-            return '冻干甲型肝炎减毒活疫苗'
-        elif '乙型肝炎人免疫球蛋白' in x:
-            return '重组乙型肝炎疫苗'
+        elif '甲肝减毒活疫苗' in x or '甲型肝炎减毒疫苗' in x:
+            return '甲型肝炎减毒活疫苗'
         else:
             return x
     elif '狂犬病' in x:
@@ -87,16 +92,16 @@ def clean_vaccine_name(x):
             return '人用狂犬病疫苗'
         else:
             return x
-    elif '脑炎' in x:
-        if '乙型脑炎灭活疫苗' in x:
+    elif '脑炎' in x or '乙脑' in x:
+        if '乙型脑炎灭活疫苗' in x or '乙脑灭活疫苗' in x:
             return '乙型脑炎灭活疫苗'
-        elif '森林脑炎灭活疫苗' in x:
+        elif '森林脑炎灭活疫苗' in x or '森林脑炎疫苗' in x:
             return '森林脑炎灭活疫苗'
         elif '乙型脑炎减毒活疫苗' in x:
             return '乙型脑炎减毒活疫苗'
         else:
             return x
-    elif '脑膜炎' in x:
+    elif '脑膜炎' in x or '流脑' in x:
         if 'W135' in x:
             return 'ACYW135群脑膜炎球菌多糖疫苗'
         elif 'ACYW136' in x:
@@ -107,6 +112,8 @@ def clean_vaccine_name(x):
             return 'AC群脑膜炎球菌（结合）b型流感嗜血杆菌（结合）联合疫苗'
         elif 'A' in x and 'C' in x:
             return 'A群C群脑膜炎球菌多糖结合疫苗'
+        elif x == '流脑疫苗':
+            return 'ACYW135群脑膜炎球菌多糖疫苗'
         else:
             return x
     elif '裂解' in x:
@@ -123,7 +130,7 @@ def clean_vaccine_name(x):
     elif '肺' in x:
         if '23' in x:
             return '23价肺炎球菌多糖疫苗'
-        elif '13' in x:
+        elif '13' in x or '十三' in x or x == '肺炎疫苗':
             return '13价肺炎球菌多糖疫苗'
         else:
             return x
@@ -135,30 +142,29 @@ def clean_vaccine_name(x):
         else:
             return x
     elif '霍乱' in x:
-        if '重组B亚单位/菌体霍乱' in x:
-            return '重组B亚单位/菌体霍乱疫苗'
-        elif '霍乱疫苗' in x:
-            return '霍乱疫苗'
-        else:
-            return x
+        return '重组B亚单位/菌体霍乱疫苗'
     elif '腮腺炎' in x:
         return '腮腺炎减毒活疫苗'
     elif '百白破' in x:
         return '吸附无细胞百白破灭活脊髓灰质炎和b型流感嗜血杆菌（结合）联合疫苗'
-    elif '流感' in x:
+    elif '流感' in x or '流行性感冒' in x:
         if '嗜血杆菌' in x:
             return 'b型流感嗜血杆菌结合疫苗'
         elif '流感病毒亚单位疫苗' in x:
             return '流感病毒亚单位疫苗'
+        elif x == '流行性感冒疫苗':
+            return '流感病毒亚单位疫苗'
         else:
             return x
     elif '人乳头瘤' in x:
-        if '双价' in x:
+        if '双价' in x or '二价':
             return '双价人乳头瘤病毒吸附疫苗'
         elif '四价' in x:
             return '四价人乳头瘤病毒疫苗'
-        elif '人乳头瘤病毒吸附疫苗' in x:
-            return '人乳头瘤病毒吸附疫苗'
+        elif '九价' in x:
+            return '九价人乳头瘤病毒疫苗'
+        elif x == '人乳头瘤病毒吸附疫苗':
+            return '四价人乳头瘤病毒吸附疫苗'
         else:
             return x
     elif '伤寒' in x:
@@ -179,7 +185,12 @@ def clean_vaccine_name(x):
         return '卡介菌纯蛋白衍生物'
     elif '炭疽' in x:
         return '皮上划痕人用炭疽活疫苗'
+    elif '脊髓' in x:
+        return '脊髓灰质炎灭活疫苗'
+    elif '结核菌素' in x:
+        return '结核菌素纯蛋白衍生物'
     else:
+        # print(x)
         return np.nan
 
 
@@ -201,6 +212,17 @@ data.to_csv('analysis/data.csv', encoding='utf8', index=False)
 
 # data = pd.read_csv('analysis/data.csv', encoding='utf8')
 data['create_company'] = data['create_company'].apply(clean_create_company)
+
+# for a in data['create_company'].unique():
+#     for b in data['create_company'].unique():
+#         list1 = []
+#         list2 = []
+#         for x in a:
+#             list1.append(x)
+#         for y in b:
+#             list2.append(y)
+#         if 0 < len(set(list1) | set(list2)) - len(set(list1) & set(list2)) <= 2:
+#             print(a, b)
 
 data.rename(columns={
     'create_company': '生产企业',
@@ -227,7 +249,7 @@ for p in ax1.patches:
     totals.append(p.get_width())
 total = np.nansum(totals)
 for p in ax1.patches:
-    ax1.annotate('{:.1f}%'.format(p.get_width() / total * 100), (p.get_width() + 4, p.get_y() + p.get_height() / 2.),
+    ax1.annotate('{:.1f}%'.format(p.get_width() / total * 100), (p.get_width() + np.nanmax(totals)/50, p.get_y() + p.get_height() / 2.),
                  ha='center', va='center')
 plt.tight_layout()
 plt.savefig('image/全国各种第二类疫苗的中标情况.jpg')
@@ -246,7 +268,7 @@ for p in ax2.patches:
     totals.append(p.get_width())
 total = np.nansum(totals)
 for p in ax2.patches:
-    ax2.annotate('{:.1f}%'.format(p.get_width() / total * 100), (p.get_width() + 2, p.get_y() + p.get_height() / 2.),
+    ax2.annotate('{:.1f}%'.format(p.get_width() / total * 100), (p.get_width() + np.nanmax(totals)/50, p.get_y() + p.get_height() / 2.),
                  ha='center', va='center')
 plt.tight_layout()
 plt.savefig('image/各生产企业在全国各种第二类疫苗的中标占比.jpg')
@@ -278,7 +300,7 @@ for i in range(len(totals)):
         total.append(totals[i] + totals[i - int(len(totals) / 2)])
 for i, p in enumerate(ax3.patches):
     ax3.annotate('{:.0f}%'.format(p.get_width() / total[i] * 100),
-                 (p.get_width() + 5.5, p.get_y() + p.get_height() / 2.), ha='center', va='center', size=8)
+                 (p.get_width() + np.nanmax(totals)/30, p.get_y() + p.get_height() / 2.), ha='center', va='center', size=8)
 plt.tight_layout()
 plt.savefig('image/长春系公司在第二类疫苗的中标情况.jpg', dpi=200)
 plt.close('all')
@@ -300,7 +322,7 @@ for i in range(len(totals)):
     else:
         total.append(totals[i] + totals[i - int(len(totals) / 2)])
 for i, p in enumerate(ax4.patches):
-    ax4.annotate('{:.0f}%'.format(p.get_width() / total[i] * 100), (p.get_width() + 2, p.get_y() + p.get_height() / 2.),
+    ax4.annotate('{:.0f}%'.format(p.get_width() / total[i] * 100), (p.get_width() + np.nanmax(totals)/30, p.get_y() + p.get_height() / 2.),
                  ha='center', va='center', size=7)
 plt.tight_layout()
 plt.savefig('image/长春系公司在全国范围的中标情况.jpg', dpi=200)
