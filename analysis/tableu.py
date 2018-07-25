@@ -1,16 +1,13 @@
-import os
-import re
-import matplotlib.pyplot as plt
-import numpy as np
-import pandas as pd
-import seaborn as sns
-from ipyleaflet import Map, GeoJSON, LayersControl, LayerGroup
-import json
 import copy
+import json
+import os
 
+import pandas as pd
+from ipyleaflet import GeoJSON, LayersControl, Map
 
 data = pd.read_csv('analysis/data2.csv', encoding='utf8')
-data_sub = data[data['生产企业'].isin(['长春长生生物科技有限责任公司', '深圳康泰生物制品股份有限公司', '罗益（无锡）生物制药有限公司', '北京祥瑞生物制品有限公司'])].copy(deep=True)
+data_sub = data[data['生产企业'].isin(['长春长生生物科技有限责任公司', '深圳康泰生物制品股份有限公司', '罗益（无锡）生物制药有限公司', '北京祥瑞生物制品有限公司'])].copy(
+    deep=True)
 
 has_data_provs = data['省市'].unique()
 vaccinations_affected = data_sub['疫苗名称'].unique()
@@ -40,7 +37,7 @@ def prov_included(prov, has_data_provs):
 
 
 def prepare_geo_json(vac_name, data, geo_data, has_data_provs):
-    part_df = data[(data['疫苗名称']==vac_name)]
+    part_df = data[(data['疫苗名称'] == vac_name)]
     included_prov = part_df['省市'].unique()
     geo_data_copy = copy.deepcopy(geo_data)
     for idx, feature in enumerate(geo_data_copy['features']):
@@ -78,8 +75,7 @@ def prepare_geo_json(vac_name, data, geo_data, has_data_provs):
 
 m = Map(center=(39.9042, 116.4074), zoom=4)
 for vac_name in vaccinations_affected:
-    geo_json = GeoJSON(data=prepare_geo_json(vac_name, data, geo_data, has_data_provs),
-                       name=vac_name)
+    geo_json = GeoJSON(data=prepare_geo_json(vac_name, data, geo_data, has_data_provs), name=vac_name)
     m.add_layer(geo_json)
 m.add_control(LayersControl())
 m

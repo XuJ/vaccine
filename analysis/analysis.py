@@ -183,7 +183,7 @@ def clean_vaccine_name(x):
         return np.nan
 
 
-BASE_DIR = 'csv'
+BASE_DIR = 'csv2'
 csv_files = os.listdir(BASE_DIR)
 dfs = []
 for file in csv_files:
