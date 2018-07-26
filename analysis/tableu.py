@@ -5,8 +5,8 @@ import json
 import os
 
 import pandas as pd
-from ipyleaflet import GeoJSON, LayersControl, Map
-from ipywidgets import Layout
+from ipyleaflet import GeoJSON, LayersControl, Map, Popup, Marker
+from ipywidgets import Layout, HTML
 
 def prov_affected(prov, included_prov):
     # return True if prov is in included_prov
@@ -87,10 +87,24 @@ for feature in geo_data['features']:
     if feature['properties']['name_local'] is None:
         feature['properties']['name_local'] = u"青海|青海"
 
-m = Map(center=(40, 115), zoom=4, layout=Layout(width='100%', height='700px'))
-for vac_name in vaccinations_affected:
-    geo_json = GeoJSON(data=prepare_geo_json(vac_name, data, geo_data, has_data_provs),
-                       name=vac_name)
-    m.add_layer(geo_json)
-m.add_control(LayersControl())
+
+m = Map(center=(40, 105), zoom=4, layout=Layout(width='100%', height='700px'))
+vac_name = vaccinations_affected[0]
+message = HTML()
+message.value = '<ins>图解：</ins><p>红色标识该省疫苗生产出自长春系公司，<br/>颜色越深代表占比越高。<br/>绿色表示该省疫苗生产完全出自其他公司。<br/>灰色代表该省暂无数据。</p>'
+
+marker = Marker(location=(20, 135), draggable=False)
+marker.popup = message
+# m.add_layer(marker)
+
+title = Popup(
+        location=(50, 105),
+        child=HTML(value='<h4>{}</h4>'.format(vac_name)),
+        close_button=False,
+        auto_close = False,
+)
+m.add_layer(title)
+geo_json = GeoJSON(data=prepare_geo_json(vac_name, data, geo_data, has_data_provs),
+                   name=vac_name)
+m.add_layer(geo_json)
 m
