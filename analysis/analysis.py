@@ -44,7 +44,7 @@ def clean_create_company(x):
         return '兰州生物制品研究所有限责任公司'
     elif x == '大连雅立峰生物科药有限公司':
         return '大连雅立峰生物制药有限公司'
-    elif '赛诺菲巴斯德' in x or 'SANOFIPASTEURS' in x or 'SANOFI' in x:
+    elif '赛诺菲巴斯德' in x or 'SANOFIPASTEURS' in x or 'SANOFI' in x or 'PASTEUR' in x:
         return 'SANOFI.PASTEUR.S.A'
     elif 'GLAXOSMITHKLINE' in x:
         return 'GLAXOSMITHKLINE.BIOLOGICALS.S.A.'
@@ -108,7 +108,7 @@ def clean_vaccine_name(x):
             return 'ACYW136群脑膜炎球菌多糖疫苗'
         elif 'ACYW137' in x:
             return 'ACYW137群脑膜炎球菌多糖疫苗'
-        elif 'b' in x:
+        elif 'b' in x or 'B' in x:
             return 'AC群脑膜炎球菌（结合）b型流感嗜血杆菌（结合）联合疫苗'
         elif 'A' in x and 'C' in x:
             return 'A群C群脑膜炎球菌多糖结合疫苗'
@@ -116,6 +116,8 @@ def clean_vaccine_name(x):
             return 'ACYW135群脑膜炎球菌多糖疫苗'
         else:
             return x
+    elif 'A群' in x and 'C群' in x and 'b型' in x:
+        return 'AC群脑膜炎球菌（结合）b型流感嗜血杆菌（结合）联合疫苗'
     elif '裂解' in x:
         return '流行性感冒病毒裂解疫苗'
     elif '水痘' in x:
@@ -123,9 +125,15 @@ def clean_vaccine_name(x):
     elif '麻' in x:
         if '麻疹风疹' in x:
             return '麻疹风疹联合减毒活疫苗'
+        elif '麻' in x and '风' in x and '腮' not in x:
+            return '麻疹风疹联合减毒活疫苗'
         elif '麻腮风' in x:
             return '麻腮风联合减毒活疫苗'
+        elif '麻' in x and '风' in x and '腮' in x:
+            return '麻腮风联合减毒活疫苗'
         elif '麻疹腮腺炎' in x:
+            return '麻疹腮腺炎联合减毒活疫苗'
+        elif '麻' in x and '腮' in x and '风' not in x:
             return '麻疹腮腺炎联合减毒活疫苗'
     elif '肺' in x:
         if '23' in x:
@@ -143,40 +151,43 @@ def clean_vaccine_name(x):
             return x
     elif '霍乱' in x:
         return '重组B亚单位/菌体霍乱疫苗'
-    elif '腮腺炎' in x:
+    elif '腮腺炎' in x and '联合' not in x:
         return '腮腺炎减毒活疫苗'
     elif '百白破' in x:
-        return '吸附无细胞百白破灭活脊髓灰质炎和b型流感嗜血杆菌（结合）联合疫苗'
+        if '流感' in x and '脊' in x:
+            return '吸附无细胞百白破灭活脊髓灰质炎和b型流感嗜血杆菌（结合）联合疫苗'
+        elif '流感' in x and '脊' not in x:
+            return '吸附无细胞百白破和b型流感嗜血杆菌（结合）联合疫苗'
     elif '流感' in x or '流行性感冒' in x:
         if '嗜血杆菌' in x:
             return 'b型流感嗜血杆菌结合疫苗'
-        elif '流感病毒亚单位疫苗' in x:
+        elif '亚单位' in x:
             return '流感病毒亚单位疫苗'
-        elif x == '流行性感冒疫苗':
+        elif x == '流行性感冒疫苗' or x == '流感病毒':
             return '流感病毒亚单位疫苗'
         else:
             return x
     elif '人乳头瘤' in x:
-        if '双价' in x or '二价':
-            return '双价人乳头瘤病毒吸附疫苗'
+        if '双价' in x or '二价' in x:
+            return '双价人乳头瘤病毒疫苗'
         elif '四价' in x:
             return '四价人乳头瘤病毒疫苗'
         elif '九价' in x:
             return '九价人乳头瘤病毒疫苗'
         elif x == '人乳头瘤病毒吸附疫苗':
-            return '四价人乳头瘤病毒吸附疫苗'
+            return '双价人乳头瘤病毒疫苗'
         else:
             return x
     elif '伤寒' in x:
         return '伤寒vi多糖疫苗'
     elif '黄热' in x:
         return '黄热病减毒活疫苗'
-    elif '肾' in x:
+    elif '肾' in x or '出血热' in x:
         return '双价肾综合征出血热灭活疫苗'
     elif 'EV71' in x:
-        return 'EV71型灭活疫苗'
+        return '肠道病毒71型灭活疫苗'
     elif 'EV72' in x:
-        return 'EV72型灭活疫苗'
+        return '肠道病毒72型灭活疫苗'
     elif '破伤风' in x:
         return '吸附破伤风疫苗'
     elif '轮状病毒' in x:
@@ -185,16 +196,18 @@ def clean_vaccine_name(x):
         return '卡介菌纯蛋白衍生物'
     elif '炭疽' in x:
         return '皮上划痕人用炭疽活疫苗'
-    elif '脊髓' in x:
+    elif '脊' in x and '灰' in x:
         return '脊髓灰质炎灭活疫苗'
     elif '结核菌素' in x:
         return '结核菌素纯蛋白衍生物'
+    elif '静注人免疫球蛋白' in x:
+        return '静注人免疫球蛋白（pH4） 注射剂'
     else:
         # print(x)
         return np.nan
 
 
-BASE_DIR = 'csv2'
+BASE_DIR = 'csv3'
 csv_files = os.listdir(BASE_DIR)
 dfs = []
 for file in csv_files:
